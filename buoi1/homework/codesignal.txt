@@ -1,0 +1,29 @@
+Bài 1:
+function add(param1, param2) {
+    return param1 + param2
+}
+
+Bài 2:
+function centuryFromYear(year) {
+    return Math.ceil (year/100)
+}
+
+Bài 3:
+function checkPalindrome(inputString) {
+    let str2 = inputString.split('').reverse().join('')
+    let ans = true
+    if (inputString != str2){
+        ans = false
+    }
+    return ans
+}
+
+Bài 4:
+function checkPalindrome(inputString) {
+    let str2 = inputString.split('').reverse().join('')
+    let ans = true
+    if (inputString != str2){
+        ans = false
+    }
+    return ans
+}
