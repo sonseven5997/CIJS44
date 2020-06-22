@@ -1,0 +1,37 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.container{
+    display: flex;
+}
+
+.ads{
+    height: 700px;
+    width: 200px;
+    background-color: lightblue;
+}
+
+.menu{
+    height: 800px;
+    width: 200px;
+    background-color: lightblue;
+
+}
+
+.content{
+    width: 996px;
+}
+
+.ads > p {
+    padding-left: 20px;
+}
+
+.menu > p {
+    padding-left: 20px;
+}
+
+.content > p {
+    padding: 20px 20px 20px 20px;
+}
