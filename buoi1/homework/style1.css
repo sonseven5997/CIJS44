@@ -2,7 +2,7 @@
 
 .container {
     display: flex;
-    align-items: flex-start;
+    
     
     
 }
@@ -12,6 +12,6 @@
     width: 25%;
     border: 1px solid white;
     padding: 5px 5px 5px 5px;
-    
+    height: max-content;
 }
 

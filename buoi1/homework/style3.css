@@ -1,6 +1,6 @@
 *{
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 .container{
@@ -21,7 +21,7 @@
 }
 
 .content{
-    width: 996px;
+    flex: 1;
 }
 
 .ads > p {
