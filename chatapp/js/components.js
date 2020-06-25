@@ -46,9 +46,11 @@ components.loginScreen = `
                 <form action="" id="login-form">
                     <div class="input-wrapper">
                         <input type="text" name="email" placeholder="Email ...">
+                        <div class="error" id="error-email"></div>
                     </div>
                     <div class="input-wrapper">
                         <input type="password" name="password" placeholder="Password ...">
+                        <div class="error" id="error-password"></div>
                     </div>
                     <div class="submit-wrapper">
                         <div>Don't have an account? <span class="cursor-pointer" id="redirect-to-register">Register</span></div>
@@ -56,5 +58,11 @@ components.loginScreen = `
                     </div>
                 </form>
             </div>
+        </div>
+`
+
+components.chatScreen = `
+        <div class="chat-container">
+            <div id="chat-title"></div>
         </div>
 `
