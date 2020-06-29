@@ -39,7 +39,7 @@ view.setActiveScreen = (screenName) => {
         case 'chatScreen' :
             document.getElementById('app').innerHTML = components.chatScreen
             const chatTitle = document.getElementById('chat-title')
-            chatTitle.innerText += 'Welcome ' + model.currentUser.displayName
+            chatTitle.innerText += 'Welcome ' + firebase.auth().currentUser.displayName
             break;
     }
 }

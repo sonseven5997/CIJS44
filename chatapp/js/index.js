@@ -12,4 +12,12 @@ window.onload = () => {
     firebase.initializeApp(firebaseConfig);
     console.log(firebase.app().name)
     view.setActiveScreen('registerScreen')
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            view.setActiveScreen('chatScreen')
+        }
+        else {
+            view.setActiveScreen('registerScreen')
+        }
+    })
 }
