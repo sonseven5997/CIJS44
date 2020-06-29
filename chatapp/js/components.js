@@ -63,6 +63,27 @@ components.loginScreen = `
 
 components.chatScreen = `
         <div class="chat-container">
-            <div id="chat-title"></div>
+        <div class="chat-header">
+            MindX Chat
         </div>
+        <div class="main">
+            <div class="conversation-detail">
+                <div class="conversation-title">
+                    First conversation
+                </div>
+                <div class="list-message">
+                    <div class="message their">
+                    </div>
+                    <div class="message mine">
+                    </div>
+                </div>
+                <form action="" id="sendMessageForm">
+                    <input class="input" type="text" autocomplete="off" name="message"
+                        placeholder="Type a message ...">
+                    <button class="btn"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 `

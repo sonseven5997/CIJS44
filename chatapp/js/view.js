@@ -38,12 +38,48 @@ view.setActiveScreen = (screenName) => {
             break;
         case 'chatScreen' :
             document.getElementById('app').innerHTML = components.chatScreen
-            const chatTitle = document.getElementById('chat-title')
-            chatTitle.innerText += 'Welcome ' + firebase.auth().currentUser.displayName
+            const sendMessageForm = document.querySelector('#sendMessageForm')
+            sendMessageForm.addEventListener('submit', (e) => {
+                e.preventDefault()
+                const message = {
+                    owner: model.currentUser.email,
+                    content: sendMessageForm.message.value
+                }
+                const messageFromBot = {
+                    owner : 'Bot',
+                    content : sendMessageForm.message.value
+                }
+                if (sendMessageForm.message.value.trim() !== ''){
+                    view.addMessage(message)
+                    view.addMessage(messageFromBot)
+                }
+                sendMessageForm.message.value = ''
+            })
             break;
     }
 }
 
 view.setErrorMessage = (elementID, message) => {
     document.getElementById(elementID).innerText = message
+}
+
+view.addMessage = (message) => {
+    const messageWrapper = document.createElement('div')
+    messageWrapper.classList.add('message')
+    if (model.currentUser.email === message.owner) {
+        messageWrapper.classList.add('mine')
+        messageWrapper.innerHTML = `
+            <div class="content">${message.content}</div>
+        `
+    }
+    else {
+        messageWrapper.classList.add('their')
+        messageWrapper.innerHTML = `
+            <div class="owner">${message.owner}</div>
+            <div class="content">${message.content}</div>
+        `
+    }
+    const listMessage = document.querySelector('.list-message')
+    listMessage.scrollTop = listMessage.scrollHeight
+    document.querySelector('.list-message').appendChild(messageWrapper)
 }
