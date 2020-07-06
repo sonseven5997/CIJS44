@@ -39,22 +39,26 @@ view.setActiveScreen = (screenName) => {
         case 'chatScreen' :
             document.getElementById('app').innerHTML = components.chatScreen
             const sendMessageForm = document.querySelector('#sendMessageForm')
+            model.loadConversations()
             sendMessageForm.addEventListener('submit', (e) => {
                 e.preventDefault()
                 const message = {
                     owner: model.currentUser.email,
                     content: sendMessageForm.message.value
                 }
-                const messageFromBot = {
-                    owner : 'Bot',
-                    content : sendMessageForm.message.value
+                const messageToUpdate = {
+                    'messages.content': firebase.firestore.FieldValue.arrayUnion(message.content)
                 }
                 if (sendMessageForm.message.value.trim() !== ''){
                     view.addMessage(message)
-                    view.addMessage(messageFromBot)
+                    //view.addMessage(messageFromBot)
                 }
                 sendMessageForm.message.value = ''
+                firebase.firestore().collection(model.collectionName).doc(model.docID).update(messageToUpdate).then(res => {
+                    
+                })
             })
+            
             break;
     }
 }
@@ -82,4 +86,10 @@ view.addMessage = (message) => {
     const listMessage = document.querySelector('.list-message')
     listMessage.scrollTop = listMessage.scrollHeight
     document.querySelector('.list-message').appendChild(messageWrapper)
+}
+
+view.showCurrentConversation = () => {
+    for (let oneMessage of model.curentConversation.messages){
+        view.addMessage(oneMessage)
+    }
 }
