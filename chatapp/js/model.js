@@ -1,7 +1,7 @@
 const model = {}
 model.currentUser = undefined
 model.collectionName = 'conversations'
-model.curentConversation = undefined
+model.currentConversation = undefined
 model.docID = '7nP89Y7Ob32MtpwrHycn'
 model.register = (firstName, lastName, email, password) => {
     firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
@@ -39,10 +39,11 @@ model.login = (email,password) => {
 model.loadConversations = () => {
     firebase.firestore().collection(model.collectionName).get().then(res => {
         const data = ultis.getDataFromDocs(res.docs) 
+        console.log(data[0].messages)
         if (data.length > 0){
-            model.curentConversation = data[0]
+            model.currentConversation = data[0].messages
             view.showCurrentConversation()
         }
-        console.log(ultis.getDataFromDocs(res.docs))
+       // console.log(ultis.getDataFromDocs(res.docs))
     })
 }

@@ -89,7 +89,11 @@ view.addMessage = (message) => {
 }
 
 view.showCurrentConversation = () => {
-    for (let oneMessage of model.curentConversation.messages){
-        view.addMessage(oneMessage)
+    for (let i=0; i<model.currentConversation.content.length; i++){
+        let message = {
+            owner: model.currentConversation.owner,
+            content: model.currentConversation.content[i]
+        }
+        view.addMessage(message)
     }
 }
