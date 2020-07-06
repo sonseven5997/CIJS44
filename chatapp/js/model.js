@@ -37,7 +37,7 @@ model.login = (email,password) => {
 }
 
 model.loadConversations = () => {
-    firebase.firestore().collection(model.collectionName).get().then(res => {
+    firebase.firestore().collection(model.collectionName).where('users','array-contains',model.currentUser.email).get().then(res => {
         const data = ultis.getDataFromDocs(res.docs) 
         console.log(data[0].messages)
         if (data.length > 0){
@@ -45,5 +45,19 @@ model.loadConversations = () => {
             view.showCurrentConversation()
         }
        // console.log(ultis.getDataFromDocs(res.docs))
+    })
+}
+
+model.addMessage = (message) => {
+    const dataToUpdate = {
+        messages: firebase.firestore.FiledValue.arrayUnion(message)
+    }
+    firebase.firestore().collection(model.collectionName).doc(model.docID).update(dataToUpdate)
+}
+
+model.listenConversationsChange = () => {
+    firebase.firestore.collection(model.collectionName).where('users','array-contains',model.currentUser.email)
+    .onSnapshot((res) => {
+        console.log(res)
     })
 }
