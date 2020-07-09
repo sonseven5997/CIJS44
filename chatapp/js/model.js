@@ -2,7 +2,7 @@ const model = {}
 model.currentUser = undefined
 model.collectionName = 'conversations'
 model.currentConversation = undefined
-model.docID = '7nP89Y7Ob32MtpwrHycn'
+model.conversations = undefined
 model.register = (firstName, lastName, email, password) => {
     firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
         console.log(user)
@@ -40,12 +40,11 @@ model.loadConversations = () => {
     firebase.firestore().collection(model.collectionName).where('users','array-contains',model.currentUser.email).get().then(res => {
         const data = ultis.getDataFromDocs(res.docs) 
         model.conversations = data
-        //console.log(data)
         if (data.length > 0){
             model.currentConversation = data[0]
             view.showCurrentConversation()
         }
-       // console.log(ultis.getDataFromDocs(res.docs))
+        view.showConversations()
     })
 }
 
@@ -53,7 +52,7 @@ model.addMessage = (message) => {
     const dataToUpdate = {
         messages: firebase.firestore.FieldValue.arrayUnion(message),
     }
-    firebase.firestore().collection(model.collectionName).doc(model.docID).update(dataToUpdate)
+    firebase.firestore().collection(model.collectionName).doc(model.currentConversation.id).update(dataToUpdate)
 }
 
 model.listenConversationsChange = () => {
@@ -70,9 +69,17 @@ model.listenConversationsChange = () => {
             const type = oneChange.type
             const oneChangeData = ultis.getDataFromDoc(oneChange.doc)
             console.log(oneChangeData)
-            if (oneChangeData.id === model.currentConversation.id) {
-                model.currentConversation = oneChangeData
-                view.addMessage(oneChangeData.messages.length-1)
+            if (type === 'modified') {
+                if (oneChangeData.id === model.currentConversation.id) {
+                    model.currentConversation = oneChangeData
+                    view.addMessage(oneChangeData.messages.length-1)
+                }
+                for (let i=0; i<model.conversations.length; i++) {
+                    const elemlent = model.conversations[i]
+                    if (elemlent.id === oneChange.id){
+                        model.conversations[i] = oneChangeData
+                    }
+                }
             }
         }
     })

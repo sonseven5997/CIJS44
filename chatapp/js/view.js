@@ -55,7 +55,6 @@ view.setActiveScreen = (screenName) => {
                 model.loadConversations()
                 model.listenConversationsChange()
             })
-            
             break;
     }
 }
@@ -91,9 +90,10 @@ view.showCurrentConversation = () => {
     }
 }
 
-view.addConversation = (conversation) => {
+view.addConversation = (conversation,id) => {
     const conversationWrapper = document.createElement('div')
     conversationWrapper.classList.add('conversation')
+    conversationWrapper.id = id
     if (conversation.id === model.currentConversation.id) {
         conversationWrapper.classList.add('current')
     }
@@ -101,11 +101,28 @@ view.addConversation = (conversation) => {
     <div class="conversation-title">${conversation.title}</div>
     <div class="conversation-num-user">${conversation.users.length}</div>
     `
-    document.querySelector('.list-conversation').appendChild(conversation)
+    document.querySelector('.list-conversation').appendChild(conversationWrapper)
+    const allConversations = document.querySelectorAll('.conversation')
+            console.log(allConversations.length)
+            for (let i=0; i<allConversations.length; i++) {
+                allConversations[i].addEventListener('click', (e) => {
+                    document.querySelector('.list-message').innerHTML = ''
+                    model.currentConversation = model.conversations.find((x) => {
+                        return x.id === allConversations[i].id
+                    })
+                    view.showCurrentConversation()
+                    allConversations[i].classList.add('current')
+                    for (let j=0; j<allConversations.length; j++){
+                        if(j!==i){
+                            allConversations[j].classList.remove('current')
+                        }
+                    }
+                })
+            }
 }
 
 view.showConversations = () => {
     for (oneConversation of model.conversations) {
-        view.addConversation(oneConversation)
+        view.addConversation(oneConversation,oneConversation.id)
     }
 }
