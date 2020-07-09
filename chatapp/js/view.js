@@ -44,19 +44,16 @@ view.setActiveScreen = (screenName) => {
                 e.preventDefault()
                 const message = {
                     owner: model.currentUser.email,
-                    content: sendMessageForm.message.value
+                    content: sendMessageForm.message.value,
+                    createdAt: new Date().toISOString()
                 }
-                const messageToUpdate = {
-                    'messages.content': firebase.firestore.FieldValue.arrayUnion(message.content)
-                }
+                console.log(message)
                 if (sendMessageForm.message.value.trim() !== ''){
-                    view.addMessage(message)
-                    //view.addMessage(messageFromBot)
+                    model.addMessage(message)
                 }
                 sendMessageForm.message.value = ''
-                firebase.firestore().collection(model.collectionName).doc(model.docID).update(messageToUpdate).then(res => {
-                    
-                })
+                model.loadConversations()
+                model.listenConversationsChange()
             })
             
             break;
@@ -89,11 +86,26 @@ view.addMessage = (message) => {
 }
 
 view.showCurrentConversation = () => {
-    for (let i=0; i<model.currentConversation.length; i++){
-        let message = {
-            owner: model.currentConversation.owner,
-            content: model.currentConversation.content[i]
-        }
-        view.addMessage(message)
+    for (let i=0; i<model.currentConversation.messages.length; i++){
+        view.addMessage(model.currentConversation.messages[i])
+    }
+}
+
+view.addConversation = (conversation) => {
+    const conversationWrapper = document.createElement('div')
+    conversationWrapper.classList.add('conversation')
+    if (conversation.id === model.currentConversation.id) {
+        conversationWrapper.classList.add('current')
+    }
+    conversationWrapper.innerHTML = `
+    <div class="conversation-title">${conversation.title}</div>
+    <div class="conversation-num-user">${conversation.users.length}</div>
+    `
+    document.querySelector('.list-conversation').appendChild(conversation)
+}
+
+view.showConversations = () => {
+    for (oneConversation of model.conversations) {
+        view.addConversation(oneConversation)
     }
 }
