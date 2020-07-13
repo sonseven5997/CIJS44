@@ -52,6 +52,7 @@ model.addMessage = (message) => {
     const dataToUpdate = {
         messages: firebase.firestore.FieldValue.arrayUnion(message),
     }
+    
     firebase.firestore().collection(model.collectionName).doc(model.currentConversation.id).update(dataToUpdate)
 }
 
@@ -68,11 +69,11 @@ model.listenConversationsChange = () => {
         for (oneChange of docChanges) {
             const type = oneChange.type
             const oneChangeData = ultis.getDataFromDoc(oneChange.doc)
-            console.log(oneChangeData)
+            //console.log(type)
             if (type === 'modified') {
                 if (oneChangeData.id === model.currentConversation.id) {
                     model.currentConversation = oneChangeData
-                    view.addMessage(oneChangeData.messages.length-1)
+                    view.addMessage(oneChangeData.messages[oneChangeData.messages.length-1])
                 }
                 for (let i=0; i<model.conversations.length; i++) {
                     const elemlent = model.conversations[i]
@@ -81,6 +82,20 @@ model.listenConversationsChange = () => {
                     }
                 }
             }
+            else if (type === 'added') {
+                model.conversations.push(oneChangeData)
+                view.addConversation(oneChangeData)
+            }
         }
     })
+}
+
+model.changeCurrentConversation = (conversationId) => {
+    model.currentConversation = model.conversations.filter(item => item.id == conversationId)[0]
+    view.showCurrentConversation()
+}
+
+model.createConversation = (conversation) => {
+    firebase.firestore().collection(model.collectionName).add(conversation)
+    view.backToChatScreen()
 }

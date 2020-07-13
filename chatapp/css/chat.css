@@ -81,7 +81,23 @@
     background: #dbdbdb;
   }
   
-  .chat-container .aside-right{
+  .chat-container .aside-left{
     border-right: 1px solid #dbdbdb;
     font-size: 14px;
+    width: 15%;
   }
+
+  .chat-container .aside-left .new-conversation {
+    height: 64px;
+    border-bottom: 1px solid #dbdbdb;
+    line-height: 64px;
+    text-align: center;
+  }
+
+.chat-container .aside-right {
+  border-left: 1px solid #dbdbdb;
+  font-size: 14px;
+  width: 15%;
+  padding: 10px;
+  padding-top: 0px;
+}

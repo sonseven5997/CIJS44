@@ -49,3 +49,16 @@ controller.login = ({ email, password }) => {
         model.login(email,password)
     }
 }
+
+controller.createConversation = ({title, friendEmail}) => {
+    view.setErrorMessage('conversation-name-error', title === '' ? 'Please input title' : '')
+    view.setErrorMessage('conversation-email-error', friendEmail === '' ? 'Please input friend email' : '')
+    if (title !== '' && friendEmail !== '') {
+        model.createConversation({
+            title,
+            users: [friendEmail,model.currentUser.email],
+            createdAt: new Date().toISOString(),
+            messages: []
+        })
+    }
+}
