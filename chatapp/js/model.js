@@ -3,6 +3,7 @@ model.currentUser = undefined
 model.collectionName = 'conversations'
 model.currentConversation = undefined
 model.conversations = undefined
+model.dataChangedId = undefined
 model.register = (firstName, lastName, email, password) => {
     firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
         console.log(user)
@@ -72,19 +73,29 @@ model.listenConversationsChange = () => {
             //console.log(type)
             if (type === 'modified') {
                 if (oneChangeData.id === model.currentConversation.id) {
+                    if (oneChangeData.users.length === model.currentConversation.users.length){
+                        view.addMessage(oneChangeData.messages[oneChangeData.messages.length-1])
+                    } else {
+                        view.addUser(oneChangeData.users[oneChangeData.users.length-1])
+                        document.querySelector('#add-user-form').email = ''
+                    }
                     model.currentConversation = oneChangeData
-                    view.addMessage(oneChangeData.messages[oneChangeData.messages.length-1])
                 }
                 for (let i=0; i<model.conversations.length; i++) {
                     const elemlent = model.conversations[i]
-                    if (elemlent.id === oneChange.id){
+                    if (elemlent.id === oneChangeData.id){
                         model.conversations[i] = oneChangeData
+                        if(oneChangeData.messages[oneChangeData.messages.length-1].owner !== model.currentUser.email){
+                            model.dataChangedId = oneChangeData.id
+                            view.showNotify(oneChangeData.id)
+                        }
                     }
                 }
             }
             else if (type === 'added') {
                 model.conversations.push(oneChangeData)
                 view.addConversation(oneChangeData)
+                view.showNotify(oneChangeData.id)
             }
         }
     })
@@ -98,4 +109,11 @@ model.changeCurrentConversation = (conversationId) => {
 model.createConversation = (conversation) => {
     firebase.firestore().collection(model.collectionName).add(conversation)
     view.backToChatScreen()
+}
+
+model.addUser = (email) => {
+    const dataToUpdate = {
+        users: firebase.firestore.FieldValue.arrayUnion(email)
+    }
+    firebase.firestore().collection(model.collectionName).doc(model.currentConversation.id).update(dataToUpdate)
 }
