@@ -117,3 +117,4 @@ model.addUser = (email) => {
     }
     firebase.firestore().collection(model.collectionName).doc(model.currentConversation.id).update(dataToUpdate)
 }
+

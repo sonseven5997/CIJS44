@@ -67,3 +67,8 @@ controller.addUser = (email) => {
     view.setErrorMessage('add-user-email-error', email === '' ? 'Please input email' : '')
     model.addUser(email)
 }
+
+controller.validateEmail = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}

@@ -80,7 +80,12 @@ view.setActiveScreen = (screenName) => {
                     title: createConversationForm.title.value,
                     friendEmail: createConversationForm.email.value
                 }
-                controller.createConversation(data)
+                if (controller.validateEmail(data.friendEmail)) {
+                    controller.createConversation(data)
+                } else {
+                    view.setErrorMessage('conversation-email-error','Wrong format email')
+                }
+
             })
     }
     view.currentScreen = screenName
