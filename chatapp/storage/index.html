@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-storage.js"></script>
+    
+</head>
+<body>
+    <form action="" id="upload-file">
+        <input type="file" name="file" accept="image/*">
+        <button type="submit">Upload file</button>
+    </form>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD6GPsSeJRGbFysgbddsagnnVETTrlvgho",
+            authDomain: "chat-ci-44-5997.firebaseapp.com",
+            databaseURL: "https://chat-ci-44-5997.firebaseio.com",
+            projectId: "chat-ci-44-5997",
+            storageBucket: "chat-ci-44-5997.appspot.com",
+            messagingSenderId: "125787160417",
+            appId: "1:125787160417:web:6e9ddd882f529ab1d0cf20"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

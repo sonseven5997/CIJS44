@@ -28,9 +28,10 @@ model.login = (email,password) => {
                 email: user.user.email
             }
             view.setActiveScreen('chatScreen')
-        } else {
-            alert('Please verify your email!')
-        }
+        } 
+        // else {
+        //     alert('Please verify your email!')
+        //}
     }).catch((err) => {
         alert(err.message)
         console.log(err)

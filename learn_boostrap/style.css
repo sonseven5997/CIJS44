@@ -1,0 +1,14 @@
+.banner {
+    font-size: 22px;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.font-size-2rem {
+    font-size: 2rem;
+}
+
+.width-100 {
+    width: 100%;
+}

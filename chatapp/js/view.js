@@ -139,6 +139,22 @@ view.addConversation = (conversation) => {
     <div class="conversation-num-user">${conversation.users.length} users</div>
     <div class="conversation-notify"></div>
     `
+
+    const mediaQuery = window.matchMedia('screen and (max-width: 768px)')
+    if (mediaQuery.matches) {
+        conversationWrapper.firstElementChild.innerText = conversation.title.charAt(0)
+        document.getElementById('new-conversation').innerText  = '+'
+    }
+    mediaQuery.addListener((mediaMatch) => {
+        if (mediaMatch.matches) {
+            conversationWrapper.firstElementChild.innerText = conversation.title.charAt(0)
+            document.getElementById('new-conversation').innerText  = '+'
+        } else {
+            conversationWrapper.firstElementChild.innerText = conversation.title
+            document.getElementById('new-conversation').innerText  = '+ New conversation'
+        }
+    })
+
     document.querySelector('.list-conversation').appendChild(conversationWrapper)
     conversationWrapper.addEventListener('click', () => {
         conversationWrapper.lastElementChild.style = 'display: none'
@@ -185,7 +201,9 @@ view.backToChatScreen = () => {
         controller.addUser(addUserForm.email.value)
         addUserForm.email.value = ''
     })
-    
+    document.querySelector('#sendMessageForm input').addEventListener('click', () => {
+        document.getElementById(model.dataChangedId).lastElementChild.style = 'display: none'
+    })
 }
 
 view.addUsers = () => {

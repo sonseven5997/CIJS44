@@ -119,3 +119,35 @@
   right: 20px;
   display: none;
 }
+
+@media screen and (max-width: 768px) {
+  .chat-container .aside-right {
+    display: none;
+  }
+  .chat-container .aside-left .conversation-num-user {
+    display: none;
+  }
+  .chat-container .aside-left .conversation {
+    border-radius: 50%;
+    height: 64px;
+    width: 64px;
+    line-height: 64px;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    border: 1px solid #dbdbdb;
+    margin-bottom: 10px;
+  }
+  .chat-container .aside-left {
+    width: 70px;
+  }
+  .aside-left .conversation-notify {
+    top: 38%;
+    right: 5px;
+  }
+}
+
+.chat-container .aside-right .list-users div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
